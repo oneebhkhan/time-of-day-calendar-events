@@ -23,6 +23,7 @@ def get_prayer_times(date, lat, lon, method):
     request = requests.get(f"http://api.aladhan.com/v1/timings/{date}?latitude={lat}&longitude={lon}")
 
     if request.status_code == 200:
+
         data = request.json()
         time_zone = pytz.timezone(data["data"]["meta"]["timezone"])
         sehri_timing = data["data"]["timings"]["Fajr"]
@@ -45,22 +46,26 @@ def create_event(start_time, duration, name, location):
 
 
 # save events to calendar
-def create_calendar(start_date, num_events, duration, location, fiqah):
+def create_calendar(start_date, num_days, duration, location, fiqah='Hanafi', adjustment=0):
 
     lat, lon = get_lat_lon(location)
+    if fiqah == 'Jafari' and adjustment == 0:
+        adjustment = 10
+    elif fiqah == 'Hanafi':
+        adjustment = 0
 
     events = []
 
-    for i in range(num_events):
+    for i in range(num_days):
         date = (datetime.strptime(start_date, "%d-%m-%Y") + (i * timedelta(days=1))).strftime("%d-%m-%Y")
         suhoor_time, iftar_time, time_zone = get_prayer_times(date, lat, lon, fiqah)
 
         converted_date = datetime.strptime(date, "%d-%m-%Y").strftime("%Y-%m-%d")
-        suhoor_time_dt = time_zone.localize(datetime.strptime(f"{converted_date} {suhoor_time}", "%Y-%m-%d %H:%M"))
-        iftar_time_dt = time_zone.localize(datetime.strptime(f"{converted_date} {iftar_time}", "%Y-%m-%d %H:%M"))
+        suhoor_time_dt = time_zone.localize(datetime.strptime(f"{converted_date} {suhoor_time}", "%Y-%m-%d %H:%M") - timedelta(minutes=adjustment))
+        iftar_time_dt = time_zone.localize(datetime.strptime(f"{converted_date} {iftar_time}", "%Y-%m-%d %H:%M") + timedelta(minutes=adjustment))
 
-        suhoor_event = create_event(suhoor_time_dt, timedelta(minutes=duration), f"Suhoor@{location}  ", location)
-        iftar_event = create_event(iftar_time_dt, timedelta(minutes=duration), f"Iftar@{location}", location)
+        suhoor_event = create_event(suhoor_time_dt, timedelta(minutes=duration), f"🌅Suhoor@{location}  ", location)
+        iftar_event = create_event(iftar_time_dt, timedelta(minutes=duration), f"🌇 Iftar@{location}", location)
 
         events.append(suhoor_event)
         events.append(iftar_event)

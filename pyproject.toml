@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "cal-events"
+version = "0.1.0"
+description = ""
+authors = ["Oneeb <64619727+oneebhkhan@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fire = "^0.7.0"
+pytz = "^2025.1"
+requests = "^2.32.3"
+ics = "^0.7.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
