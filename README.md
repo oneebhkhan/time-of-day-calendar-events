@@ -38,9 +38,19 @@ Explaining the arguments:
 - `--fiqah`: The fiqah to be used for generating events. Can be either `Hanafi` or `Jafari`. (default is `Hanafi`)
 - `--adjustment`: The adjustment to be made to the events in minutes (default is 0)
 
+Example:
+```bash
+   poetry run python main.py \
+    --start_date 02-03-2025 \
+    --num_days 30 \
+    --duration 30 \
+    --city Lahore
+```
+
 > **Note:** 
 > If the `--fiqah` argument is set to `Jafari`, events will be adjusted by 10 minutes by default to account for the difference in Suhoor/Iftar times between the Hanafi and Jafari fiqahs.
 > However, if a different preferred adjustment is required, e.g. 12 or 15 minutes, this can be set using the `--adjustment` argument.
+> If the `--fiqah` argument is set to `Hanafi`, the `--adjustment` argument will have no effect.
 
 ### Known issues:
 - The script currently only supports generating Suhoor and Iftar times for Ramadan.
