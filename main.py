@@ -9,8 +9,9 @@ from datetime import timedelta, datetime
 def get_lat_lon(location):
     request = requests.get(f"https://geocode.xyz/{location}?json=1")
 
-    if request.status_code == 200:
+    if request.status_code == 200 and 'Throttled!' not in request.json()['latt']:
         data = request.json()
+        print(f"Location set to {data['standard']['city']}, {data['standard']['countryname']}")
         lat = data["latt"]
         lon = data["longt"]
 
@@ -31,6 +32,8 @@ def get_prayer_times(date, lat, lon):
 
         return sehri_timing, iftar_timing, time_zone
     else:
+        print(request.json())
+        print(lat, lon)
         raise Exception("Failed to get prayer times")
 
 

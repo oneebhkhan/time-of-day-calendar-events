@@ -52,9 +52,10 @@ Example:
 > However, if a different preferred adjustment is required, e.g. 12 or 15 minutes, this can be set using the `--adjustment` argument.
 > If the `--fiqh` argument is set to `Hanafi`, the `--adjustment` argument will have no effect.
 
-### Known issues:
+### Known issues/limitations:
 - The script currently only supports generating Suhoor and Iftar times for Ramadan.
-- The prayer time API can respond unreliably, if an Exception is raised, simply try again in a few seconds (or minutes).
+- The Geocode.xyz API is throttled, if an Exception is raised, simply try again in a few seconds (or minutes).
+- The Geocody.xyz API fetches the lat / long coordinates of the city. However it may end up fetching the coordinates of a different/wrong city, e.g. when the city name is `Islamabad` it provides coordinates of `Chittagong, Bangladesh`
 
 ### Todo:
 Extend to cover more use cases:
