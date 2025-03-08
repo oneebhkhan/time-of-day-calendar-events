@@ -27,7 +27,7 @@ A python script that can generate a series of events tied to the time of day –
     --num_days <NUMBER_OF_DAYS> \
     --duration <DURATION_OF_EVENT> \
     --city <CITY_NAME> \
-    --fiqah <FIQAH> \
+    --fiqh <FIQH> \
     --adjustment <ADJUSTMENT>
     ```
 Explaining the arguments:
@@ -35,7 +35,7 @@ Explaining the arguments:
 - `--num_days`: The number of days for which events are to be generated
 - `--duration`: The duration of the event in minutes
 - `--city`: The city for which events are to be generated
-- `--fiqah`: The fiqah to be used for generating events. Can be either `Hanafi` or `Jafari`. (default is `Hanafi`)
+- `--fiqh`: The fiqh to be used for generating events. Can be either `Hanafi` or `Jafari`. (default is `Hanafi`)
 - `--adjustment`: The adjustment to be made to the events in minutes (default is 0)
 
 Example:
@@ -48,9 +48,9 @@ Example:
 ```
 
 > **Note:** 
-> If the `--fiqah` argument is set to `Jafari`, events will be adjusted by 10 minutes by default to account for the difference in Suhoor/Iftar times between the Hanafi and Jafari fiqahs.
+> If the `--fiqh` argument is set to `Jafari`, events will be adjusted by 10 minutes by default to account for the difference in Suhoor/Iftar times between the Hanafi and Jafari fiqhs.
 > However, if a different preferred adjustment is required, e.g. 12 or 15 minutes, this can be set using the `--adjustment` argument.
-> If the `--fiqah` argument is set to `Hanafi`, the `--adjustment` argument will have no effect.
+> If the `--fiqh` argument is set to `Hanafi`, the `--adjustment` argument will have no effect.
 
 ### Known issues:
 - The script currently only supports generating Suhoor and Iftar times for Ramadan.

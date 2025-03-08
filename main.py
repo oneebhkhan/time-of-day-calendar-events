@@ -19,7 +19,7 @@ def get_lat_lon(location):
         raise Exception("Failed to get lat/lon")
 
 
-def get_prayer_times(date, lat, lon, method):
+def get_prayer_times(date, lat, lon):
     request = requests.get(f"http://api.aladhan.com/v1/timings/{date}?latitude={lat}&longitude={lon}")
 
     if request.status_code == 200:
@@ -46,19 +46,19 @@ def create_event(start_time, duration, name, location):
 
 
 # save events to calendar
-def create_calendar(start_date, num_days, duration, location, fiqah='Hanafi', adjustment=0):
+def create_calendar(start_date, num_days, duration, location, fiqh='Hanafi', adjustment=0):
 
     lat, lon = get_lat_lon(location)
-    if fiqah == 'Jafari' and adjustment == 0:
+    if fiqh == 'Jafari' and adjustment == 0:
         adjustment = 10
-    elif fiqah == 'Hanafi':
+    elif fiqh == 'Hanafi':
         adjustment = 0
 
     events = []
 
     for i in range(num_days):
         date = (datetime.strptime(start_date, "%d-%m-%Y") + (i * timedelta(days=1))).strftime("%d-%m-%Y")
-        suhoor_time, iftar_time, time_zone = get_prayer_times(date, lat, lon, fiqah)
+        suhoor_time, iftar_time, time_zone = get_prayer_times(date, lat, lon)
 
         converted_date = datetime.strptime(date, "%d-%m-%Y").strftime("%Y-%m-%d")
         suhoor_time_dt = time_zone.localize(datetime.strptime(f"{converted_date} {suhoor_time}", "%Y-%m-%d %H:%M") - timedelta(minutes=adjustment))
@@ -74,7 +74,7 @@ def create_calendar(start_date, num_days, duration, location, fiqah='Hanafi', ad
     cal.events = events
 
     # save the calendar to a file
-    with open(f"Ramzan@{location}-{fiqah}.ics", "w") as f:
+    with open(f"Ramzan@{location}-{fiqh}.ics", "w") as f:
         f.writelines(cal)
 
 
